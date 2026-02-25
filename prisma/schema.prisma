@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model users {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String   @unique
+  password   String
+  createDate DateTime @default(now())
+  updateAt    DateTime @updatedAt
+}
+
+
+model quartos{
+  id Int @id @default(autoincrement())
+  nome String 
+  descricao String
+  tipo String @unique
+  quartos quartosimg[]
+
+   createDate DateTime @default(now())
+   updateAt    DateTime @updatedAt
+}
+
+model quartosimg {
+  id     Int    @id @default(autoincrement())
+  publicId String ?
+  imagem String
+  quartosId Int 
+  Quarto  quartos @relation(fields: [quartosId], references: [id])
+  
+  createDate DateTime @default(now())
+  updateAt    DateTime @updatedAt
+}
+model paginas{
+  id Int @id @default(autoincrement())
+  conteudo Json
+  slug String @unique
+  pages imgPages[]
+  createDate DateTime @default(now())
+  updateAt    DateTime @updatedAt
+}
+model imgPages{
+  id Int @id @default(autoincrement())
+  url String
+  paginasId Int
+  pages paginas @relation(fields: [paginasId], references:[id])
+  createDate DateTime @default(now())
+}
