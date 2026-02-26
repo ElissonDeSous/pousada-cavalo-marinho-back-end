@@ -16,24 +16,59 @@ export default class imagePages{
                  return res.status(400).json({mensagem:"imagem insuficiente"})
             }
 
-            const imagensPages = await prisma.paginas.findMany(
+            const imagensPages = await prisma.paginas.findFirst(
                 {
                     where:{slug},include:{pages:true}
                 }
             )
 
-            if(imagePages.pages.length > 0 ){
-               for(){
-                  
+            if(imagensPages.pages.length > 0 ){
+               for(const img of imagensPages.pages){
+                  if(img.publicId){
+                    await cloudinary.uploader.destroy(img.publicId)
+                  }
+                   
                }
-            }
 
-            return res.status(200).json(imagensPages)
+                await prisma.imgPages.deleteMany({
+                    where:{
+                      paginasId:imagensPages.id
+                    }
+                })
+
+               }
+
+               for(const image of images){
+                const result = await cloudinary.uploader.upload(image.path, {
+                    folder:"imagensPages"
+                })
+
+                const imagens = []
+
+              const imagemPages =   await prisma.imgPages.create({
+                    data:{
+                       url:result.secure_url,
+                       publicId: result.public_id,
+                       pages:{
+                          connect:{
+                              slug
+                          }
+                       }
+
+                    }
+                })
+
+                imagens.push(imagemPages)
+               }
+            
+          return res.status(200).json({mensagem:"Criado com Sucesso"})
+
+           
 
         } catch (error) {
-            
+            return res.status(500).json({mensagem: error.message})
         }
-       
-         res.status(200).json(images)
+    
     }
 }
+

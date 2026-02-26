@@ -54,6 +54,7 @@ model paginas{
 model imgPages{
   id Int @id @default(autoincrement())
   url String
+  publicId String
   paginasId Int
   pages paginas @relation(fields: [paginasId], references:[id])
   createDate DateTime @default(now())
