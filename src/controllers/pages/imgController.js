@@ -12,9 +12,11 @@ export default class imagePages{
         console.log(req.files)
 
         try {
-            if(!images||!images.lenght){
+            
+            if(!images.length){
                  return res.status(400).json({mensagem:"imagem insuficiente"})
             }
+            
 
             const imagensPages = await prisma.paginas.findFirst(
                 {
