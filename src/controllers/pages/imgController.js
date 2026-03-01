@@ -10,10 +10,7 @@ export default class imagePages{
         const {slug} = req.body
         const images = req.files
         console.log(req.files)
-
-        try {
-            
-            if(!images || images.length === 0){
+          if(!images || images.length === 0){
                  return res.status(400).json({mensagem:"imagem insuficiente"})
             }
             
@@ -74,5 +71,5 @@ export default class imagePages{
         }
     
     }
-}
+
 
