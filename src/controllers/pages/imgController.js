@@ -6,8 +6,8 @@ export default class imagePages{
 
     }
     async CreateImages(req,res){
-        const {slug} = req.body
 
+        const {slug} = req.body
         const images = req.files
         console.log(req.files)
 
@@ -23,6 +23,7 @@ export default class imagePages{
                     where:{slug},include:{pages:true}
                 }
             )
+                
 
             if(imagensPages.pages.length > 0 ){
                for(const img of imagensPages.pages){
