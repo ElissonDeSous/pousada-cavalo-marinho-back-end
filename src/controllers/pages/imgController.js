@@ -45,7 +45,7 @@ export default class imagePages{
                     folder:"imagensPages"
                 })
 
-                const imagens = []
+                const imagens = [image]
 
               const imagemPages =   await prisma.imgPages.create({
                     data:{
@@ -63,7 +63,7 @@ export default class imagePages{
                 imagens.push(imagemPages)
                }
             
-          return res.status(200).json({mensagem:"Criado com Sucesso"})
+          return res.status(200).json(url)
 
            
 
