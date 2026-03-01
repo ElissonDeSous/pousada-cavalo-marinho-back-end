@@ -13,7 +13,7 @@ export default class imagePages{
 
         try {
             
-            if(!images.length){
+            if(!images || images.length === 0){
                  return res.status(400).json({mensagem:"imagem insuficiente"})
             }
             
