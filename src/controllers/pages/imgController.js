@@ -7,7 +7,7 @@ export default class imagePages{
     }
     async CreateImages(req,res){
 
-        const {slug} = req.body
+        const {slug} = req.params
         const images = req.files
         console.log(req.files)
           if(!images || images.length === 0){
@@ -64,11 +64,12 @@ export default class imagePages{
             
          
 
-           
+            
 
         } catch (error) {
             return res.status(500).json({mensagem: error.message})
         }
+    
     
     }
 
