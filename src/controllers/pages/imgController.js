@@ -59,8 +59,11 @@ export default class imagePages{
                 })
 
                 imagens.push(imagemPages)
-                 return res.status(200).json(imagens)
+                return res.status(201).json({imagemPages})
                }
+            
+
+               
             
          
 
