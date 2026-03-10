@@ -60,14 +60,7 @@ export default class imagePages{
 
                 imagens.push(imagemPages)
                 return res.status(201).json({imagemPages})
-               }
-            
-
-               
-            
-         
-
-            
+               }  
 
         } catch (error) {
             return res.status(500).json({mensagem: error.message})
