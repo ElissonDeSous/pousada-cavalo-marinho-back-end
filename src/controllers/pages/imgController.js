@@ -8,46 +8,52 @@ export default class imagePages{
     async CreateImages(req,res){
 
         const {slug} = req.params
-        const images = req.files
-        console.log(req.files)
-          if(!images || images.length === 0){
+        const images = req.file
+     
+
+        try{
+        console.log(req.file)
+          if(!images){
                  return res.status(400).json({mensagem:"imagem insuficiente"})
             }
             
 
-            const imagensPages = await prisma.paginas.findFirst(
+            const imagensPages = await prisma.paginas.findMany(
                 {
                     where:{slug},include:{pages:true}
                 }
             )
                 
 
-            if(imagensPages.pages.length > 0 ){
-               for(const img of imagensPages.pages){
-                  if(img.publicId){
-                    await cloudinary.uploader.destroy(img.publicId)
+            if(imagensPages.length >= 0 ){
+              
+                  if(imagensPages.publicId){
+                    await cloudinary.uploader.destroy(imagensPages.publicId)
                   }
-                   
-               }
 
-                await prisma.imgPages.deleteMany({
+                    await prisma.imgPages.deleteMany({
                     where:{
                       paginasId:imagensPages.id
                     }
                 })
-
+                   
                }
 
-               for(const image of images){
-                const result = await cloudinary.uploader.upload(image.path, {
+              
+
+               
+
+              
+                const result = await cloudinary.uploader.upload(images.path, {
                     folder:"imagensPages"
                 })
 
-                const imagens = [image]
+                const imagens = [images]
+                const url = result.secure_url
 
               const imagemPages =   await prisma.imgPages.create({
                     data:{
-                       url:result.secure_url,
+                       url:url,
                        publicId: result.public_id,
                        pages:{
                           connect:{
@@ -59,8 +65,11 @@ export default class imagePages{
                 })
 
                 imagens.push(imagemPages)
-                return res.status(201).json({imagemPages})
-               }  
+                
+                 
+
+               return res.status(201).json({url})
+            
 
         } catch (error) {
             return res.status(500).json({mensagem: error.message})
@@ -69,4 +78,4 @@ export default class imagePages{
     
     }
 
-
+}

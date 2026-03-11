@@ -25,7 +25,7 @@ rotas.get("/detalhes", Authentithor, detalhes.detailsUsers)
 
 rotas.get("/pages/:slug",  Pages.read)
 rotas.post("/pages/:slug", Authentithor, Pages.create)
-rotas.post('/pagesImg/:slug', Authentithor,   multer.array("images"),  ImagePages.CreateImages)
+rotas.post('/pagesImg/:slug', Authentithor,   multer.single("images"),  ImagePages.CreateImages)
 
 rotas.post("/upload",multer.array("files", 6), Authentithor, imagem.createdimg)
 rotas.get("/upload/:tipo",imagem.ReadUploadings )
