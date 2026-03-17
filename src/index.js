@@ -6,6 +6,7 @@ const app = express();
 app.use(express.json())
 app.use(cors({
     origin:['http://localhost:3000',"https://pousada-cavalo-marinho.vercel.app", 'http://localhost:3001' ,'https://painel-administrativo-cyan.vercel.app'],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials:true
 }))
 app.use(cookieParser())
