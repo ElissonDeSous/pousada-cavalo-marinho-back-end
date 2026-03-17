@@ -18,14 +18,14 @@ export default class imagePages{
             }
             
 
-            const imagensPages = await prisma.paginas.findMany(
+            const imagensPages = await prisma.paginas.findUnique(
                 {
                     where:{slug},include:{pages:true}
                 }
             )
                 
 
-            if(imagensPages.length >= 0 ){
+            if(!imagensPages.publicId){
               
                   if(imagensPages.publicId){
                     await cloudinary.uploader.destroy(imagensPages.publicId)
