@@ -8,6 +8,7 @@ import { Authentithor } from "./middleware/authenticator.js";
 import Upload from "./controllers/upload/imgController.js";
 import Room from "./controllers/upload/roomController.js";
 import imagePages from "./controllers/pages/imgController.js";
+import Analizar from "./controllers/analise/analyticsController.js";
 
 const rotas = Router();
 const usuarios = new users();
@@ -17,6 +18,7 @@ const Pages = new pages();
 const imagem = new Upload();
 const room = new Room();
 const ImagePages = new imagePages();
+const analise = new  Analizar();
 
 rotas.post('/user',  usuarios.createUsers)
 rotas.post("/session", Auth.authenticator)
@@ -32,6 +34,9 @@ rotas.get("/upload/:tipo",imagem.ReadUploadings )
 
 rotas.post("/room",Authentithor, room.createRoom)
 rotas.get("/room/:tipo", room.readingRoom)
+
+
+rotas.get('/analytics', analise.analytics)
 
 
 
